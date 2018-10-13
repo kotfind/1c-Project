@@ -1,45 +1,41 @@
-var addDragNDrop = function(elem){
+var ball = document.getElementById('ball');
 
-    var ball = document.getElementById("ball");
+ball.onmousedown = function(e) {
 
-    ball.ondragstart = function() {
+  var coords = getCoords(ball);
+  var shiftX = e.pageX - coords.left;
+  var shiftY = e.pageY - coords.top;
 
-        return false;
+  ball.style.position = 'absolute';
+  document.body.appendChild(ball);
+  moveAt(e);
 
-    };
+  ball.style.zIndex = 1000; // над другими элементами
 
-    ball.onmousedown = function(e) {
+  function moveAt(e) {
+    ball.style.left = e.pageX - shiftX + 'px';
+    ball.style.top = e.pageY - shiftY + 'px';
+  }
 
-        ball.style.position = "absolute";
-        moveAt(e);
-        document.body.appendChild(ball);
+  document.onmousemove = function(e) {
+    moveAt(e);
+  };
 
-        var coords = getCoords(ball);
-        var shiftX = e.pageX - coords.left;
-        var shiftY = e.pageY - coords.top;
+  ball.onmouseup = function() {
+    document.onmousemove = null;
+    ball.onmouseup = null;
+  };
 
-        ball.style.zIndex = 1000;
+}
 
-        function moveAt(e) {
-
-            ball.style.left = e.pageX - shiftX + 'px';
-            ball.style.top = e.pageY - shiftY + 'px';
-
-        };
-
-        document.onmousemove = function(e) {
-
-            moveAt(e);
-
-        };
-
-        ball.onmouseup = function() {
-
-            document.onmousemove = null;
-            ball.onmouseup = null;
-
-        };
-
-    };
-
+ball.ondragstart = function() {
+  return false;
 };
+
+function getCoords(elem) {   // кроме IE8-
+  var box = elem.getBoundingClientRect();
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset
+  };
+}
