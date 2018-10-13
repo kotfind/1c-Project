@@ -2,17 +2,20 @@ var canvas = document.getElementById("canvas");
 var gr = canvas.getContext("2d");
 
 gr.fillStyle = "#e5cba1";
-gr.lineWidth = 10;
+gr.strokeStyle = "red";
+//gr.lineWidth = 10;
 
 gr.beginPath();
 
-    // gr.arc(10, 10, 10, 180 * Math.PI / 180, 270 * Math.PI / 180, false);
-    // gr.lineTo(40, 0);
-     gr.arc(40, 10, 10, 270 * Math.PI / 180, 360 * Math.PI / 180, false);
-    // gr.lineTo(50, 190);
-    gr.arc(40, 180, 10, 270 * Math.PI / 180, 360 * Math.PI / 180, false);
-    // gr.lineTo(0, 200);
-    // gr.arc(0, 190, 10, 180 * Math.PI / 180, 270 * Math.PI / 180, false);
-    // gr.lineTo(0, 10);
+    gr.moveTo(0, 100 * (1 / 3.0 + 1 / 12));
+    gr.lineTo(0, 100 * (1 / 3.0 + 3 / 12));
+    gr.lineTo(10, 100);
+    gr.lineTo(50, 100);
+    gr.lineTo(60, 100 * 2 / 3)
+
+    gr.lineTo(160, 100 * 2 / 3);
+
+    gr.lineTo(170, 100);
+    gr.lineTo(210, 100);
 
 gr.stroke();
