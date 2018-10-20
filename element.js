@@ -1,17 +1,19 @@
 class Element {
 
-    constructor(img){
-
-        this.img = img;
-        this.pins = [];
+    addElement(img){
 
         var elem = document.createElement("img");
         this.elem = elem;
+        this.img = img;
 
         elem.src = this.img;
         //elem.className = "element " + this.type_;
-        this.elem.id = "element" + document.getElementById("objectsSpan").children.length;
+        elem.id = "element" + document.getElementById("objectsSpan").children.length;
         document.getElementById("objectsSpan").appendChild(elem);
+
+    }
+
+    addDragAndDrop(){
 
         elem.onmousedown = function(e) {
 

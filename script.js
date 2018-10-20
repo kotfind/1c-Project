@@ -1,1 +1,1 @@
-var elem = new Element("ball", "https://js.cx/clipart/ball.svg")
+var elem = new Diode();
