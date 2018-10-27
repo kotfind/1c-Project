@@ -1,1 +1,1 @@
-var elem = new Diode();
+var elem = new Diode(true);
