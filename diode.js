@@ -1,33 +1,21 @@
 class Diode extends Element{
 
-    constructor(adder, xPos, yPos){
+    constructor(adder){
 
-        super("res/diode.png", adder, xPos, yPos);
+        super("res/diode.png", adder);
 
         elem = this.elem;
 
-        elem.width = 100;
-        elem.height = 40;
+        this.elem.width = 100;
+        this.elem.height = 40;
 
         if(adder){
-            elem.onmousedown = function(e){
-                
-                var coords = getCoords(this);
-                var shiftX = e.pageX - coords.left;
-                var shiftY = e.pageY - coords.top;
+            this.elem.onmousedown = function(e){
 
-                var elem = new Diode(false, shiftX, shiftY);
+                new Diode(false);
 
             };
         }
-
-        function getCoords(elem) {
-            var box = elem.getBoundingClientRect();
-            return {
-                top: box.top + pageYOffset,
-                left: box.left + pageXOffset
-            };
-        };
 
     }
 

@@ -1,6 +1,6 @@
 class Element {
 
-    constructor(img, adder, xPos, yPos){
+    constructor(img, adder){
 
         var elem = document.createElement("img");
         this.elem = elem;
@@ -8,12 +8,9 @@ class Element {
 
         elem.src = this.img;
         //elem.id = "element" + document.getElementById("objectsSpan").children.length;
-        //elem.className = "element";
+        elem.className = "element";
         document.getElementById("objectsSpan").appendChild(elem);
         if(!adder)elem.style.position = "absolute";
-        elem.style.left = xPos;
-        elem.style.top = yPos;
-
         if(!adder){
             elem.onmousedown = function(e) {
 
