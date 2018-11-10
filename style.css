@@ -8,6 +8,15 @@ html, body{
     cursor: pointer;
 }
 #elementPanel{
-    height: 100%;
+    height: calc( 100% - 2px );
+    width: 160px;
     border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    background: white;
+    z-index: 1000;
+    float: left;
+
+}
+#objectSpan{
+    float: left;
 }

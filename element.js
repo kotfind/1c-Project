@@ -1,48 +1,48 @@
 class Element {
 
-    constructor(img, adder){
+    constructor(img, parent){
 
         var elem = document.createElement("img");
         this.elem = elem;
         this.img = img;
 
         elem.src = this.img;
-        //elem.id = "element" + document.getElementById("objectsSpan").children.length;
         elem.className = "element";
-        document.getElementById("objectsSpan").appendChild(elem);
-        if(!adder)elem.style.position = "absolute";
-        if(!adder){
-            elem.onmousedown = function(e) {
+        if(parent == undefined)
+            document.getElementById("objectsSpan").appendChild(elem);
+        else
+            parent.appendChild(elem);
 
-                var coords = getCoords(elem);
-                var shiftX = e.pageX - coords.left;
-                var shiftY = e.pageY - coords.top;
+        elem.onmousedown = function(e) {
 
-                elem.style.position = "absolute";
+            elem.style.position = "absolute";
+
+            var coords = getCoords(elem);
+            var shiftX = e.pageX - coords.left;
+            var shiftY = e.pageY - coords.top;
+
+            elem.style.position = "absolute";
+            if(parent == undefined)
                 document.getElementById("objectsSpan").appendChild(elem);
+            else
+                parent.appendChild(elem);
+            moveAt(e);
+
+            elem.style.zIndex = 100; // над другими элементами
+
+            function moveAt(e) {
+                elem.style.left = e.pageX - shiftX + 'px';
+                elem.style.top = e.pageY - shiftY + 'px';
+            }
+
+            document.onmousemove = function(e) {
                 moveAt(e);
-
-                elem.style.zIndex = 1000; // над другими элементами
-
-                function moveAt(e) {
-                    elem.style.left = e.pageX - shiftX + 'px';
-                    elem.style.top = e.pageY - shiftY + 'px';
-                }
-
-                document.onmousemove = function(e) {
-                    moveAt(e);
-                };
-
-                elem.onmouseup = function() {
-                    document.onmousemove = null;
-                    elem.onmouseup = null;
-                };
-
             };
-            elem.ondragstart = function() {
-                return false;
-            };
-        }
+        };
+        elem.ondragstart = function() {
+            return false;
+        };
+
         function getCoords(elem) {
             var box = elem.getBoundingClientRect();
             return {
