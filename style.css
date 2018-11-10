@@ -20,3 +20,6 @@ html, body{
 #objectSpan{
     float: left;
 }
+*{
+    user-select: none;
+}

@@ -15,9 +15,9 @@ class Diode extends Element{
             if(adder){
 
                 new Diode(true, parent);
-                // var oldThis = this;
+                // var oldThisId = this.id;
                 // document.getElementById("objectsSpan").appendChild(this);
-                // document.getElementById("elementPanel").removeChild(oldThis);
+                // document.getElementById("elementPanel").removeChild(document.getElementById(oldThisId+""));
 
                 adder = false;
 

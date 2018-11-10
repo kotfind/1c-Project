@@ -8,14 +8,19 @@ class Element {
 
         elem.src = this.img;
         elem.className = "element";
+        idCounter++;
+        elem.id = idCounter;
         if(parent == undefined)
-            document.getElementById("objectsSpan").appendChild(elem);
+            document.getElementById("objectsSpan").insertBefore(elem, 
+                document.getElementById("objectsSpan").children[0]);
         else
-            parent.appendChild(elem);
+            parent.insertBefore(elem, 
+                parent.children[0]);
 
         elem.onmousedown = function(e) {
 
             elem.style.position = "absolute";
+            elem.style.margin = "auto";
 
             var coords = getCoords(elem);
             var shiftX = e.pageX - coords.left;
@@ -23,9 +28,11 @@ class Element {
 
             elem.style.position = "absolute";
             if(parent == undefined)
-                document.getElementById("objectsSpan").appendChild(elem);
-            else
-                parent.appendChild(elem);
+                document.getElementById("objectsSpan").insertBefore(elem
+                    ,document.getElementById("objectsSpan").children[0]);
+             else
+                parent.insertBefore(elem
+                    ,parent.children[0]);
             moveAt(e);
 
             elem.style.zIndex = 100; // над другими элементами

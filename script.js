@@ -1,7 +1,8 @@
+var idCounter = 0;
+
 var elementDiv = document.createElement("div");
 var diode = new Diode(true, elementDiv);
-diode.elem.style.marginLeft = "auto";
-diode.elem.style.marginRight = "auto";
+diode.elem.style.margin = "auto";
 var text = document.createElement("p");
 text.innerHTML = "Диод";
 text.style.textAlign = "center";
