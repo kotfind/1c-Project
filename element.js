@@ -16,6 +16,7 @@ class Element {
         elem.onmousedown = function(e) {
 
             elem.style.position = "absolute";
+            elem.style.margin = "auto";
 
             var coords = getCoords(elem);
             var shiftX = e.pageX - coords.left;
