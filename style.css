@@ -3,20 +3,33 @@ html, body{
     padding: 0;
     height: 100%;
     width: 100%;
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+       -khtml-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
 }
 .element{
     cursor: pointer;
 }
 #elementPanel{
-    height: calc( 100% - 2px );
+    height: calc( 66% - 2px );
     width: 160px;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
     background: white;
     z-index: 1000;
     float: left;
+    overflow-y: scroll;
 
 }
 #objectSpan{
     float: left;
+}
+.elementPanelImgSpan{
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    margin-top: 10px;
 }

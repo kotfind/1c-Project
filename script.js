@@ -1,9 +1,21 @@
-var elementDiv = document.createElement("div");
-var diode = new Diode(true, elementDiv);
-diode.elem.style.marginLeft = "auto";
-diode.elem.style.marginRight = "auto";
-var text = document.createElement("p");
-text.innerHTML = "Диод";
-text.style.textAlign = "center";
-elementDiv.appendChild(text);
-document.getElementById("elementPanel").appendChild(elementDiv);
+function addElementToPanel(name, elementClass){
+
+    var elementDiv = document.createElement("div");
+    var elementImgSpan = document.createElement("span");
+    elementImgSpan.className = "elementPanelImgSpan";
+    new elementClass(true, elementImgSpan);
+    var text = document.createElement("p");
+    text.innerHTML = name;
+    text.style.textAlign = "center";
+    elementDiv.appendChild(elementImgSpan);
+    document.getElementById("elementPanel").appendChild(elementDiv);
+    elementDiv.appendChild(text);
+    elementImgSpan.style.height = elementImgSpan.children[0].style.height;
+
+}
+
+addElementToPanel("Диод", Diode);
+addElementToPanel("Резистор", Resistor);
+addElementToPanel("Светодиод", LED_Diode);
+addElementToPanel("Транзистор", Transistor);
+addElementToPanel("Переключатель", Switch);

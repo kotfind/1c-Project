@@ -1,17 +1,17 @@
 class Element {
 
-    constructor(img, parent){
+    constructor(elementClass, height, adder, img, parent, title){
 
         var elem = document.createElement("img");
         this.elem = elem;
         this.img = img;
+        if(title != "" && title != undefined)elem.title = title;
+        parent = parent==undefined? document.getElementById("objectsSpan"):parent;
 
         elem.src = this.img;
+        elem.height = height;
         elem.className = "element";
-        if(parent == undefined)
-            document.getElementById("objectsSpan").appendChild(elem);
-        else
-            parent.appendChild(elem);
+        parent.insertBefore(elem, parent.children[0]);
 
         elem.onmousedown = function(e) {
 
@@ -22,13 +22,10 @@ class Element {
             var shiftY = e.pageY - coords.top;
 
             elem.style.position = "absolute";
-            if(parent == undefined)
-                document.getElementById("objectsSpan").appendChild(elem);
-            else
-                parent.appendChild(elem);
+            parent.insertBefore(elem, parent.children[0]);
             moveAt(e);
 
-            elem.style.zIndex = 100; // над другими элементами
+            elem.style.zIndex = 100;
 
             function moveAt(e) {
                 elem.style.left = e.pageX - shiftX + 'px';
@@ -49,6 +46,20 @@ class Element {
                 top: box.top + pageYOffset,
                 left: box.left + pageXOffset
             };
+        };
+        elem.onmouseup = function(e){
+
+            if(adder){
+
+                new elementClass(true, parent);
+
+                adder = false;
+
+            }
+            if(!adder)if(parseInt(this.style.left.split("px")[0], 10) <= 160)this.remove();
+
+            document.onmousemove = null;
+
         };
     }
 
