@@ -2,6 +2,11 @@ class Wire{
 
     constructor (x1, y1, x2, y2){
 
+        //console.log("p1: x:" + x1 + "\n    y:" + y1 + "\np2: x:" + x2 + "\n    y:" + y2)
+
+        x1--;
+        x2--;
+
         { //graphic part
         var firstHorizontalWire = document.createElement("img");
         var secondHorizontalWire = document.createElement("img");

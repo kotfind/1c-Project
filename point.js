@@ -5,6 +5,8 @@ class Point{
         this.x = x;
         this.y = y;
 
+        var this_ = this;
+
         var point = this.point = document.createElement("img");
 
         document.getElementById("elementPanel").appendChild(point);
@@ -23,21 +25,22 @@ class Point{
 
                 point.src = "res/pointOff.png";
                 this.isOn = false;
+                selectedPoint = undefined;
 
             }else{
 
                 if(selectedPoint != undefined){
 
-                    new Wire(selectedPoint.x, selectedPoint.y, this.x, this.y);
-                    console.log(selectedPoint);
-                    //selectedPoint.setIsOn(false);
-                    selectedPoint = null;
+                    new Wire(selectedPoint.x, selectedPoint.y, this_.x, this_.y);
+                    selectedPoint.setIsOn(false);
+                    selectedPoint = undefined;
 
                 }else{
 
                     point.src = "res/pointOn.png";
                     this.isOn = true;
-                    selectedPoint = this;
+                    selectedPoint = this_;
+                    //console.log(selectedPoint);
 
                 }
 
@@ -56,7 +59,7 @@ class Point{
 
     setIsOn(value){
 
-        point.src = value ? "res/pointOn.png" : "res/pointOff.png";
+        this.point.src = value ? "res/pointOn.png" : "res/pointOff.png";
         this.isOn = value;
 
     }

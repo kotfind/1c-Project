@@ -21,5 +21,7 @@ addElementToPanel("Транзистор", Transistor, 97);
 addElementToPanel("Переключатель", Switch);
 
 var selectedPoint;
-var point1 = new Point(200, 100);
-var point2 = new Point(378, 221);
+
+new Point(200, 300);
+new Point(250, 250);
+//new Point(300, 500);
