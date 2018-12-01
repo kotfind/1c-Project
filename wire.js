@@ -1,16 +1,15 @@
 class Wire{
 
-    constructor (x1, y1, x2, y2){
+    constructor (x1, y1, x2, y2, pp1, pp2){
 
-        //console.log("p1: x:" + x1 + "\n    y:" + y1 + "\np2: x:" + x2 + "\n    y:" + y2)
-
-        x1--;
-        x2--;
+        this.parentPoint1 = pp1;
+        this.parentPoint2 = pp2;
+        this.active = true;
 
         { //graphic part
-        var firstHorizontalWire = document.createElement("img");
-        var secondHorizontalWire = document.createElement("img");
-        var verticalWire = document.createElement("img");
+        var firstHorizontalWire = this.firstHorizontalWire = document.createElement("img");
+        var secondHorizontalWire = this.secondHorizontalWire = document.createElement("img");
+        var verticalWire = this.verticalWire = document.createElement("img");
 
         document.getElementById("elementPanel").appendChild(firstHorizontalWire);
         document.getElementById("elementPanel").appendChild(secondHorizontalWire);
@@ -21,16 +20,19 @@ class Wire{
         verticalWire.src = "res/verticalWire.png";
 
         firstHorizontalWire.style.position = secondHorizontalWire.style.position = verticalWire.style.position = "absolute";
-        firstHorizontalWire.style.top = y1 < y2 ? y1 + "px" : y2 + "px";
-        firstHorizontalWire.style.left = x1 < x2 ? x1 + "px" : x2 + "px";
-        secondHorizontalWire.style.top = y1 > y2 ? y1 + "px" : y2 + "px";
-        secondHorizontalWire.style.left = x1 < x2 ? x1 + Math.abs(x1 - x2) / 2 + "px": x2 + Math.abs(x1 - x2) / 2 + "px";
-        verticalWire.style.top = y1 < y2 ? y1 + "px" : y2 + "px";
-        verticalWire.style.left = x1 < x2 ? x1 + Math.abs(x1 - x2) / 2 + "px": x2 + Math.abs(x1 - x2) / 2 + "px";
+        
+        firstHorizontalWire.style.top = (x1 < x2 ? y1 : y2) - 1 + "px";
+        firstHorizontalWire.style.left = (x1 < x2 ? x1 : x2) + 1 + "px";
+
+        secondHorizontalWire.style.top = (x1 > x2 ? y1 : y2) - 1 + "px";
+        secondHorizontalWire.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(x1 - x2) / 2 + "px";
+
+        verticalWire.style.top = (y1 < y2 ? y1 : y2) - 1 + "px";
+        verticalWire.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(x1 - x2) / 2 + "px";
 
         firstHorizontalWire.style.height = secondHorizontalWire.style.height = verticalWire.style.width = "3px";
         firstHorizontalWire.style.width = secondHorizontalWire.style.width = Math.abs(x1 - x2) / 2 + "px";
-        verticalWire.style.height = Math.abs(y2-y1) + "px";
+        verticalWire.style.height = Math.abs(y2-y1) + 3 + "px";
         }
 
         firstHorizontalWire.onmousedown = secondHorizontalWire.onmousedown = verticalWire.onmousedown = function(){
@@ -44,6 +46,22 @@ class Wire{
             }
 
         }
+
+    }
+
+    setCoordinats(x1, y1, x2, y2){
+        
+        this.firstHorizontalWire.style.top = (x1 < x2 ? y1 : y2) - 1 + "px";
+        this.firstHorizontalWire.style.left = (x1 < x2 ? x1 : x2) + 1 + "px";
+
+        this.secondHorizontalWire.style.top = (x1 > x2 ? y1 : y2) - 1 + "px";
+        this.secondHorizontalWire.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(x1 - x2) / 2 + "px";
+
+        this.verticalWire.style.top = (y1 < y2 ? y1 : y2) - 1 + "px";
+        this.verticalWire.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(x1 - x2) / 2 + "px";
+
+        this.firstHorizontalWire.style.width = this.secondHorizontalWire.style.width = Math.abs(x1 - x2) / 2 + "px";
+        this.verticalWire.style.height = Math.abs(y2-y1) + 3 + "px";
 
     }
 

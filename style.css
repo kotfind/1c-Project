@@ -10,8 +10,13 @@ html, body{
           -ms-user-select: none;
               user-select: none;
 }
+.point{
+    z-index: 100;
+    cursor: pointer;
+}
 .element{
     cursor: pointer;
+    z-index: 10;
 }
 #elementPanel{
     height: calc( 66% - 2px );

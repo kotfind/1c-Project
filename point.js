@@ -8,6 +8,7 @@ class Point{
         var this_ = this;
 
         var point = this.point = document.createElement("img");
+        point.className = "point";
 
         document.getElementById("elementPanel").appendChild(point);
 
@@ -16,8 +17,10 @@ class Point{
         point.src = "res/pointOff.png";
 
         this.isOn = false;
-        if(x != undefined) point.style.left = x - 7 + "px";
-        if(y != undefined) point.style.top = y - 7 + "px";
+        if(this.x != undefined) point.style.left = this.x - 7 + "px";
+        if(this.y != undefined) point.style.top = this.y - 7 + "px";
+
+        var dependedWires = this.dependedWires = [];
 
         point.onmousedown = function(){
 
@@ -31,7 +34,8 @@ class Point{
 
                 if(selectedPoint != undefined){
 
-                    new Wire(selectedPoint.x, selectedPoint.y, this_.x, this_.y);
+                    dependedWires[dependedWires.length] = new Wire(selectedPoint.x + 7, selectedPoint.y + 7, this_.x + 7, this_.y + 7, this_, selectedPoint);
+                    selectedPoint.dependedWires[selectedPoint.dependedWires.length] = dependedWires[dependedWires.length - 1];
                     selectedPoint.setIsOn(false);
                     selectedPoint = undefined;
 
@@ -40,7 +44,6 @@ class Point{
                     point.src = "res/pointOn.png";
                     this.isOn = true;
                     selectedPoint = this_;
-                    //console.log(selectedPoint);
 
                 }
 
@@ -52,8 +55,14 @@ class Point{
 
     setCoordinats (new_X, new_Y){
 
-        if(new_X != undefined) this.x = this.point.style.left = new_X - 7 + "px";
-        if(new_Y != undefined) this.y = this.point.style.top = new_Y - 7 + "px";
+        if(new_X != undefined) this.point.style.left = (this.x = new_X - 7) + "px";
+        if(new_Y != undefined) this.point.style.top = (this.y = new_Y - 7) + "px";
+
+        for(var i = 0; i < this.dependedWires.length; i++){
+            this.dependedWires[i].setCoordinats(this.x + 7, this.y + 7
+                ,this.dependedWires[i].parentPoint1.x != this.x ? this.dependedWires[i].parentPoint1.x + 7: this.dependedWires[i].parentPoint2.x + 7
+                ,this.dependedWires[i].parentPoint1.y != this.y ? this.dependedWires[i].parentPoint1.y + 7 : this.dependedWires[i].parentPoint2.y + 7);
+        }
 
     }
 

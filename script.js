@@ -15,13 +15,17 @@ function addElementToPanel(name, elementClass, height){
 }
 
 addElementToPanel("Диод", Diode);
-addElementToPanel("Резистор", Resistor);
-addElementToPanel("Светодиод", LED_Diode);
-addElementToPanel("Транзистор", Transistor, 97);
-addElementToPanel("Переключатель", Switch);
+// addElementToPanel("Резистор", Resistor);
+// addElementToPanel("Светодиод", LED_Diode);
+// addElementToPanel("Транзистор", Transistor, 97);
+// addElementToPanel("Переключатель", Switch);
 
 var selectedPoint;
 
-new Point(200, 300);
-new Point(250, 250);
-//new Point(300, 500);
+// new Point(200, 300);
+// new Point(250, 250);
+// new Point(300, 500);
+
+document.getElementById("elementPanel").onscroll = function(){
+    console.log(window.pageYOffset);
+}

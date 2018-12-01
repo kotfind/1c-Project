@@ -1,17 +1,20 @@
 class Element {
 
-    constructor(elementClass, height, adder, img, parent, title){
+    constructor(elementClass, height, adder, img, parent, pointsX, pointsY){
 
         var elem = document.createElement("img");
         this.elem = elem;
         this.img = img;
-        if(title != "" && title != undefined)elem.title = title;
+        //if(title != "" && title != undefined)elem.title = title;
         parent = parent==undefined? document.getElementById("objectsSpan"):parent;
 
         elem.src = this.img;
         elem.height = height;
         elem.className = "element";
+        elem.zIndex = 10;
         parent.insertBefore(elem, parent.children[0]);
+
+        var points = [];
 
         elem.onmousedown = function(e) {
 
@@ -29,8 +32,14 @@ class Element {
             elem.style.zIndex = 100;
 
             function moveAt(e) {
+
                 elem.style.left = e.pageX - shiftX + 'px';
                 elem.style.top = e.pageY - shiftY + 'px';
+
+                for (var i = 0; i < points.length; i++) {
+                    points[i].setCoordinats(e.pageX - shiftX + pointsX[i], e.pageY - shiftY + pointsY[i]);
+                }
+
             }
 
             document.onmousemove = function(e) {
@@ -56,8 +65,25 @@ class Element {
 
                 adder = false;
 
+                for(var i = 0; i < pointsX.length; i++){
+                    points[points.length] = new Point(0, 0);
+                }
+
+                var coords = getCoords(elem);
+                var shiftX = e.pageX - coords.left;
+                var shiftY = e.pageY - coords.top;
+
+                for (var i = 0; i < points.length; i++) {
+                    points[i].setCoordinats(e.pageX - shiftX + pointsX[i], e.pageY - shiftY + pointsY[i]);
+                }
+
             }
-            if(!adder)if(parseInt(this.style.left.split("px")[0], 10) <= 160)this.remove();
+            if(!adder)if(parseInt(this.style.left.split("px")[0], 10) <= 160){
+
+                for (var i = 0; i < points.length; i++) points[i].point.remove();
+                this.remove();
+
+            }
 
             document.onmousemove = null;
 
