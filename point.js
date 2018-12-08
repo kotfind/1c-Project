@@ -29,7 +29,6 @@ class Point{
 
             if(this_.isOn){
 
-                console.log("b");
                 point.src = "res/pointOff.png";
                 this_.isOn = false;
                 selectedPoint = undefined;
@@ -38,16 +37,13 @@ class Point{
 
                 if(selectedPoint != undefined){
 
-                    console.log("a");
-                    dependedWires[dependedWires.length] = new Wire(selectedPoint.x + 7, selectedPoint.y + 7, this_.x + 7, this_.y + 7, this_, selectedPoint);
+                    dependedWires[dependedWires.length] = new Wire(selectedPoint.x + 7, selectedPoint.y + 7, this_.x + 7, this_.y + 7, selectedPoint, this_);
                     selectedPoint.dependedWires[selectedPoint.dependedWires.length] = dependedWires[dependedWires.length - 1];
                     selectedPoint.setIsOn(false);
                     selectedPoint = undefined;
 
                 }else{
 
-                    console.log("c");
-                    console.log(this_);
                     point.src = "res/pointOn.png";
                     this_.isOn = true;
                     selectedPoint = this_;
@@ -85,7 +81,7 @@ class Point{
 
         for(var i = 0; i < this.dependedWires.length; i++){
 
-            this.dependedWires[i].remove();
+            if(this.dependedWires[i] != undefined)this.dependedWires[i].remove();
 
         }
 

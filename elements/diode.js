@@ -6,8 +6,4 @@ class Diode extends Element{
 
     }
 
-    setPointPosition(){
-
-    }
-
 }

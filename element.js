@@ -13,38 +13,46 @@ class Element {
         elem.className = "element";
         elem.zIndex = 10;
         parent.insertBefore(elem, parent.children[0]);
+        var this_ = this;
 
-        var points = [];
+        var points = this.points = [];
 
         elem.onmousedown = function(e) {
 
             elem.style.position = "absolute";
             elem.style.margin = "auto";
 
-            var coords = getCoords(elem);
-            var shiftX = e.pageX - coords.left;
-            var shiftY = e.pageY - coords.top;
+            if(delMode){
 
-            elem.style.position = "absolute";
-            parent.insertBefore(elem, parent.children[0]);
-            moveAt(e);
+                if(!adder)this_.removeThis();
 
-            elem.style.zIndex = 100;
+            }else{
 
-            function moveAt(e) {
+                var coords = getCoords(elem);
+                var shiftX = e.pageX - coords.left;
+                var shiftY = e.pageY - coords.top;
 
-                elem.style.left = e.pageX - shiftX + 'px';
-                elem.style.top = e.pageY - shiftY + 'px';
+                elem.style.position = "absolute";
+                parent.insertBefore(elem, parent.children[0]);
+                moveAt(e);
 
-                for (var i = 0; i < points.length; i++) {
-                    points[i].setCoordinats(e.pageX - shiftX + pointsX[i], e.pageY - shiftY + pointsY[i]);
+                elem.style.zIndex = 100;
+
+                function moveAt(e) {
+
+                    elem.style.left = e.pageX - shiftX + 'px';
+                    elem.style.top = e.pageY - shiftY + 'px';
+
+                    for (var i = 0; i < points.length; i++) {
+                        points[i].setCoordinats(e.pageX - shiftX + pointsX[i], e.pageY - shiftY + pointsY[i]);
+                    }
+
                 }
 
+                document.onmousemove = function(e) {
+                    moveAt(e);
+                };
             }
-
-            document.onmousemove = function(e) {
-                moveAt(e);
-            };
         };
         elem.ondragstart = function() {
             return false;
@@ -59,14 +67,14 @@ class Element {
         };
         elem.onmouseup = function(e){
 
-            if(adder){
+            if(adder && !delMode){
 
                 new elementClass(true, parent);
 
                 adder = false;
 
                 for(var i = 0; i < pointsX.length; i++){
-                    points[points.length] = new Point(0, 0);
+                    points[points.length] = new Point(0, 0, this_);
                 }
 
                 var coords = getCoords(elem);
@@ -78,17 +86,11 @@ class Element {
                 }
 
             }
-            // if(!adder)if(parseInt(this.style.left.split("px")[0], 10) <= 160){
+            if(!adder)if(parseInt(this.style.left.split("px")[0], 10) <= 160){
 
-            //     for (var i = 0; i < points.length; i++){
+                this_.removeThis();
 
-            //         points[i].removeAllWires();
-            //         points[i].point.remove();
-
-            //     }
-            //     this.remove();
-
-            // }
+            }
 
             document.onmousemove = null;
 
@@ -104,7 +106,7 @@ class Element {
 
     removeThis(){
 
-        for (var i = 0; i < points.length; i++){
+        for (var i = 0; i < this.points.length; i++){
 
             this.points[i].removeAllWires();
             this.points[i].point.remove();

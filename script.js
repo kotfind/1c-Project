@@ -1,6 +1,7 @@
 var selectedPoint;
-var pointNumber;
-var wireNumber;
+var pointNumber = 0;
+var wireNumber = 0;
+var delMode = false;
 
 function addElementToPanel(name, elementClass, height){
 

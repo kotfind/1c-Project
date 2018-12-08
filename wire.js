@@ -14,9 +14,12 @@ class Wire{
         wireNumber++;
 
         { //graphic part
-        var wire1 = this.wire1 = document.createElement("img");
-        var wire2 = this.wire2 = document.createElement("img");
-        var wire3 = this.wire3 = document.createElement("img");
+        var wire1 = this.wire1 = document.createElement("span");
+        var wire2 = this.wire2 = document.createElement("span");
+        var wire3 = this.wire3 = document.createElement("span");
+
+        wire1.style.backgroundColor = wire2.style.backgroundColor = wire3.style.backgroundColor = 
+        (this.color = "rgba(" + Math.random()*220 + ", " + Math.random()*220 + ", " + Math.random()*220) + ", 0.8)";
 
         document.getElementById("elementPanel").appendChild(wire1);
         document.getElementById("elementPanel").appendChild(wire2);
@@ -30,7 +33,7 @@ class Wire{
 
         wire1.onmousedown = wire2.onmousedown = wire3.onmousedown = function(){
 
-            if(confirm("Вы правда хотите удалить этот провод?")){
+            if(delMode){
 
                 this_.remove();
 
