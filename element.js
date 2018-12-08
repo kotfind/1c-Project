@@ -78,12 +78,17 @@ class Element {
                 }
 
             }
-            if(!adder)if(parseInt(this.style.left.split("px")[0], 10) <= 160){
+            // if(!adder)if(parseInt(this.style.left.split("px")[0], 10) <= 160){
 
-                for (var i = 0; i < points.length; i++) points[i].point.remove();
-                this.remove();
+            //     for (var i = 0; i < points.length; i++){
 
-            }
+            //         points[i].removeAllWires();
+            //         points[i].point.remove();
+
+            //     }
+            //     this.remove();
+
+            // }
 
             document.onmousemove = null;
 
@@ -94,6 +99,18 @@ class Element {
 
         this.elem.img = value;
         this.elem.src = value;
+
+    }
+
+    removeThis(){
+
+        for (var i = 0; i < points.length; i++){
+
+            this.points[i].removeAllWires();
+            this.points[i].point.remove();
+
+        }
+        this.elem.remove();
 
     }
 }

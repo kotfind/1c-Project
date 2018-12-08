@@ -1,3 +1,7 @@
+var selectedPoint;
+var pointNumber;
+var wireNumber;
+
 function addElementToPanel(name, elementClass, height){
 
     var elementDiv = document.createElement("div");
@@ -20,12 +24,6 @@ addElementToPanel("Диод", Diode);
 // addElementToPanel("Транзистор", Transistor, 97);
 // addElementToPanel("Переключатель", Switch);
 
-var selectedPoint;
-
-// new Point(200, 300);
-// new Point(250, 250);
-// new Point(300, 500);
-
-document.getElementById("elementPanel").onscroll = function(){
-    console.log(window.pageYOffset);
-}
+// var p1 = new Point(200, 200);
+// var p2 = new Point(400, 250);
+// var p3 = new Point(500, 150);
