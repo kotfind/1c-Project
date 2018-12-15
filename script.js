@@ -19,6 +19,13 @@ function addElementToPanel(name, elementClass, height){
 
 }
 
+document.getElementById("delModeButton").onclick = function(){
+
+    delMode = !delMode;
+    this.style.opacity = delMode? 1 : 0.5;
+
+}
+
 addElementToPanel("Диод", Diode);
 // addElementToPanel("Резистор", Resistor);
 // addElementToPanel("Светодиод", LED_Diode);

@@ -12,6 +12,7 @@ class Wire{
         this.modeIsHorizontal = false;
         this.number = wireNumber + 1;
         wireNumber++;
+        this.wiresLengthRatio = 1;
 
         { //graphic part
         var wire1 = this.wire1 = document.createElement("span");
@@ -73,12 +74,13 @@ class Wire{
             this.wire1.style.left = (x1 < x2 ? x1 : x2) + 1 + "px";
 
             this.wire2.style.top = (x1 > x2 ? y1 : y2) - 1 + "px";
-            this.wire2.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(x1 - x2) / 2 + "px";
+            this.wire2.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(y1 - y2) / (this.wiresLengthRatio + 1) + "px";
 
             this.wire3.style.top = (y1 < y2 ? y1 : y2) - 1 + "px";
-            this.wire3.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(x1 - x2) / 2 + "px";
+            this.wire3.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
 
-            this.wire1.style.width = this.wire2.style.width = Math.abs(x1 - x2) / 2 + "px";
+            this.wire1.style.width = Math.abs(y1 - y2) / (this.wiresLengthRatio + 1) + "px";
+            this.wire2.style.width = Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
             this.wire3.style.height = Math.abs(y2-y1) + 3 + "px";
 
         }else{
@@ -92,13 +94,14 @@ class Wire{
             this.wire1.style.top = (y1 < y2 ? y1 : y2) + "px";
             this.wire1.style.left = (y1 < y2? x1 : x2) - 1 + "px";
 
-            this.wire2.style.top = (y1 < y2 ? y1 : y2) + Math.abs(y1 - y2) / 2 + "px";
+            this.wire2.style.top = (y1 < y2 ? y1 : y2) + Math.abs(y1 - y2) / (this.wiresLengthRatio + 1) + "px";
             this.wire2.style.left = (x1 < x2? x1 : x2) - 1 + "px";
 
-            this.wire3.style.top = (y1 < y2 ? y2 : y1) - Math.abs(y1 - y2) / 2 + "px";
+            this.wire3.style.top = (y1 < y2 ? y2 : y1) - Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
             this.wire3.style.left = (y1 < y2? x2 : x1) - 1 + "px";
 
-            this.wire1.style.height = this.wire3.style.height = Math.abs(y1 - y2) / 2 + "px";
+            this.wire1.style.height = Math.abs(y1 - y2) / (this.wiresLengthRatio + 1)  + "px";
+            this.wire3.style.height = Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
             this.wire2.style.width = Math.abs(x1 - x2) + 3 + "px";
 
         }
@@ -112,10 +115,12 @@ class Wire{
         this.wire3.remove();
 
         for(var i = 0; i < this.parentPoint1.dependedWires.length; i++)
-            if(this.parentPoint1.dependedWires[i].number == this.number)this.parentPoint1.dependedWires[i] = undefined;
+            if(this.parentPoint1.dependedWires[i] != undefined && this.parentPoint1.dependedWires[i].number == this.number)
+                this.parentPoint1.dependedWires[i] = undefined;
         
         for(var i = 0; i < this.parentPoint2.dependedWires.length; i++)
-            if(this.parentPoint2.dependedWires[i].number == this.number)this.parentPoint2.dependedWires[i] = undefined;
+            if(this.parentPoint1.dependedWires[i] != undefined && this.parentPoint2.dependedWires[i].number == this.number)   
+                this.parentPoint2.dependedWires[i] = undefined;
 
 
     }

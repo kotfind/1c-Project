@@ -27,30 +27,31 @@ class Point{
 
         point.onmousedown = function(){
 
-            if(this_.isOn){
+            if(!delMode)
+                if(this_.isOn){
 
-                point.src = "res/pointOff.png";
-                this_.isOn = false;
-                selectedPoint = undefined;
-
-            }else{
-
-                if(selectedPoint != undefined){
-
-                    dependedWires[dependedWires.length] = new Wire(selectedPoint.x + 7, selectedPoint.y + 7, this_.x + 7, this_.y + 7, selectedPoint, this_);
-                    selectedPoint.dependedWires[selectedPoint.dependedWires.length] = dependedWires[dependedWires.length - 1];
-                    selectedPoint.setIsOn(false);
+                    point.src = "res/pointOff.png";
+                    this_.isOn = false;
                     selectedPoint = undefined;
 
                 }else{
 
-                    point.src = "res/pointOn.png";
-                    this_.isOn = true;
-                    selectedPoint = this_;
+                    if(selectedPoint != undefined){
+
+                        dependedWires[dependedWires.length] = new Wire(selectedPoint.x + 7, selectedPoint.y + 7, this_.x + 7, this_.y + 7, selectedPoint, this_);
+                        selectedPoint.dependedWires[selectedPoint.dependedWires.length] = dependedWires[dependedWires.length - 1];
+                        selectedPoint.setIsOn(false);
+                        selectedPoint = undefined;
+
+                    }else{
+
+                        point.src = "res/pointOn.png";
+                        this_.isOn = true;
+                        selectedPoint = this_;
+
+                    }
 
                 }
-
-            }
 
         }
 

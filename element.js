@@ -25,6 +25,7 @@ class Element {
             if(delMode){
 
                 if(!adder)this_.removeThis();
+                else alert("У вас включен режим удаления элементов. В этом режиме создание новых элементов невозможно");
 
             }else{
 
