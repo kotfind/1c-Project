@@ -19,8 +19,12 @@ class Wire{
         var wire2 = this.wire2 = document.createElement("span");
         var wire3 = this.wire3 = document.createElement("span");
 
+        wire1.className = wire2.className = wire3.className = "wire";
+
+        this.color = [];
+
         wire1.style.backgroundColor = wire2.style.backgroundColor = wire3.style.backgroundColor = 
-        (this.color = "rgba(" + Math.random()*220 + ", " + Math.random()*220 + ", " + Math.random()*220) + ", 0.8)";
+        "rgba(" + (this.color[0] = Math.round(Math.random()*220)) + ", " + (this.color[1] = Math.round(Math.random()*220)) + ", " + (this.color[2] = Math.round(Math.random()*220)) + ", 0.8)";
 
         document.getElementById("elementPanel").appendChild(wire1);
         document.getElementById("elementPanel").appendChild(wire2);
@@ -42,13 +46,23 @@ class Wire{
             }else if(e.ctrlKey){
                 this_.modeIsHorizontal = !this_.modeIsHorizontal;
                 this_.editMode(this_.modeIsHorizontal);
+                oneTimeStop = 1;
             }else{
 
                 oneTimeStop = 1;
                 selectedWire = this_;
-                document.getElementById('wireSlider').value = this_.firstWireLengthPer100;
-                document.getElementById('wireSlider').removeAttribute("disabled");
-                document.getElementById('wireSlider').style.opacity = "1";
+                document.getElementById("wireSlider").value = this_.firstWireLengthPer100;
+                document.getElementById("wireSlider").removeAttribute("disabled");
+                document.getElementById("wireSlider").style.opacity = 1
+
+                document.getElementById("propertiesPanel").style.opacity = 1;
+
+                document.getElementById("wireColorField1").value = this_.color[0];
+                document.getElementById("wireColorField2").value = this_.color[1];
+                document.getElementById("wireColorField3").value = this_.color[2];
+                document.getElementById("wireColorField1").style.opacity = 1;
+                document.getElementById("wireColorField2").style.opacity = 1;
+                document.getElementById("wireColorField3").style.opacity = 1;
 
             }
 

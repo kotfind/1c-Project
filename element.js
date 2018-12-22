@@ -14,13 +14,11 @@ class Element {
         elem.zIndex = 10;
         parent.insertBefore(elem, parent.children[0]);
         var this_ = this;
+        var onpanel = adder;
 
         var points = this.points = [];
 
         elem.onmousedown = function(e) {
-
-            elem.style.position = "absolute";
-            elem.style.margin = "auto";
 
             if(delMode){
 
@@ -29,9 +27,17 @@ class Element {
 
             }else{
 
+                elem.style.position = "absolute";
+                elem.style.margin = "auto";
+
                 var coords = getCoords(elem);
                 var shiftX = e.pageX - coords.left;
                 var shiftY = e.pageY - coords.top;
+
+                if(onpanel){
+                    onpanel = false;
+                    shiftY += document.getElementById("elementPanel").scrollTop;
+                }
 
                 elem.style.position = "absolute";
                 parent.insertBefore(elem, parent.children[0]);
