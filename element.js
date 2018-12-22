@@ -41,13 +41,16 @@ class Element {
 
                 function moveAt(e) {
 
-                    elem.style.left = e.pageX - shiftX + 'px';
-                    elem.style.top = e.pageY - shiftY + 'px';
+                    if(!e.ctrlKey) {
 
-                    for (var i = 0; i < points.length; i++) {
-                        points[i].setCoordinats(e.pageX - shiftX + pointsX[i], e.pageY - shiftY + pointsY[i]);
+                        elem.style.left = e.pageX - shiftX + 'px';
+                        elem.style.top = e.pageY - shiftY + 'px';
+
+                        for (var i = 0; i < points.length; i++) {
+                            points[i].setCoordinats(e.pageX - shiftX + pointsX[i], e.pageY - shiftY + pointsY[i]);
+                        }
+                        
                     }
-
                 }
 
                 document.onmousemove = function(e) {

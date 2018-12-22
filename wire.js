@@ -12,7 +12,7 @@ class Wire{
         this.modeIsHorizontal = false;
         this.number = wireNumber + 1;
         wireNumber++;
-        this.wiresLengthRatio = 1;
+        this.firstWireLengthPer100 = 50;
 
         { //graphic part
         var wire1 = this.wire1 = document.createElement("span");
@@ -29,14 +29,26 @@ class Wire{
         wire1.style.position = wire2.style.position = wire3.style.position = "absolute";
 
         this.editMode(this.modeIsHorizontal);
-
         }
 
-        wire1.onmousedown = wire2.onmousedown = wire3.onmousedown = function(){
+        wire1.onmousedown = wire2.onmousedown = wire3.onmousedown = function(e){
+
+            e.stopPropagation();
 
             if(delMode){
 
                 this_.remove();
+
+            }else if(e.ctrlKey){
+                this_.modeIsHorizontal = !this_.modeIsHorizontal;
+                this_.editMode(this_.modeIsHorizontal);
+            }else{
+
+                oneTimeStop = 1;
+                selectedWire = this_;
+                document.getElementById('wireSlider').value = this_.firstWireLengthPer100;
+                document.getElementById('wireSlider').removeAttribute("disabled");
+                document.getElementById('wireSlider').style.opacity = "1";
 
             }
 
@@ -64,9 +76,9 @@ class Wire{
 
         if(ifModeIsHorizontal){
 
-            this.wire1.src = "res/horizontalWire.png";
-            this.wire2.src = "res/horizontalWire.png";
-            this.wire3.src = "res/verticalWire.png";
+            // this.wire1.src = "res/horizontalWire.png";
+            // this.wire2.src = "res/horizontalWire.png";
+            // this.wire3.src = "res/verticalWire.png";
 
             this.wire1.style.height = this.wire2.style.height = this.wire3.style.width = "3px";
 
@@ -74,34 +86,33 @@ class Wire{
             this.wire1.style.left = (x1 < x2 ? x1 : x2) + 1 + "px";
 
             this.wire2.style.top = (x1 > x2 ? y1 : y2) - 1 + "px";
-            this.wire2.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(y1 - y2) / (this.wiresLengthRatio + 1) + "px";
+            this.wire2.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(x1 - x2) * this.firstWireLengthPer100 / 100.0 + "px";
 
             this.wire3.style.top = (y1 < y2 ? y1 : y2) - 1 + "px";
-            this.wire3.style.left = (x1 < x2 ? x1 : x2) + 1 + Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
+            this.wire3.style.left = (x1 < x2 ? x1 : x2) + Math.abs(x1 - x2) * this.firstWireLengthPer100 / 100.0 + "px";
 
-            this.wire1.style.width = Math.abs(y1 - y2) / (this.wiresLengthRatio + 1) + "px";
-            this.wire2.style.width = Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
+            this.wire1.style.width = Math.abs(x1 - x2) * this.firstWireLengthPer100 / 100.0 + "px";
+            this.wire2.style.width = Math.abs(x1 - x2) * (100 - this.firstWireLengthPer100) / 100.0 + "px";
             this.wire3.style.height = Math.abs(y2-y1) + 3 + "px";
 
         }else{
             
-            this.wire1.src = "res/verticalWire.png";
-            this.wire2.src = "res/horizontalWire.png";
-            this.wire3.src = "res/verticalWire.png";
+            // this.wire1.src = "res/verticalWire.png";
+            // this.wire2.src = "res/horizontalWire.png";
+            // this.wire3.src = "res/verticalWire.png";
 
             this.wire1.style.width = this.wire2.style.height = this.wire3.style.width = "3px";
 
             this.wire1.style.top = (y1 < y2 ? y1 : y2) + "px";
             this.wire1.style.left = (y1 < y2? x1 : x2) - 1 + "px";
 
-            this.wire2.style.top = (y1 < y2 ? y1 : y2) + Math.abs(y1 - y2) / (this.wiresLengthRatio + 1) + "px";
+            this.wire2.style.top = (y1 < y2 ? y1 : y2) + Math.abs(y1 - y2) * this.firstWireLengthPer100 / 100.0 + "px";
             this.wire2.style.left = (x1 < x2? x1 : x2) - 1 + "px";
 
-            this.wire3.style.top = (y1 < y2 ? y2 : y1) - Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
+            this.wire3.style.top = (y1 < y2 ? y2 : y1) - Math.abs(y1 - y2) * (100 - this.firstWireLengthPer100) / 100.0 + "px";
             this.wire3.style.left = (y1 < y2? x2 : x1) - 1 + "px";
-
-            this.wire1.style.height = Math.abs(y1 - y2) / (this.wiresLengthRatio + 1)  + "px";
-            this.wire3.style.height = Math.abs(y1 - y2) * (1 - 1 / (this.wiresLengthRatio + 1)) + "px";
+            this.wire1.style.height = Math.abs(y1 - y2) * this.firstWireLengthPer100 / 100.0  + "px";
+            this.wire3.style.height = Math.abs(y1 - y2) * (100 - this.firstWireLengthPer100) / 100.0 + "px";
             this.wire2.style.width = Math.abs(x1 - x2) + 3 + "px";
 
         }

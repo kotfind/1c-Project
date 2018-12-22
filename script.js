@@ -1,7 +1,35 @@
 var selectedPoint;
+var selectedWire;
 var pointNumber = 0;
 var wireNumber = 0;
 var delMode = false;
+var oneTimeStop = 0;
+
+document.getElementById('wireSlider').oninput = function(){
+
+    if(selectedWire!=undefined) {
+        
+        selectedWire.firstWireLengthPer100 = this.value;
+        selectedWire.editMode(selectedWire.modeIsHorizontal);
+
+    }
+    oneTimeStop = 1;
+}
+
+document.onclick = function(e){
+
+    if(oneTimeStop == 0){
+
+        selectedWire = undefined;
+        document.getElementById('wireSlider').setAttribute("disabled", "");
+        document.getElementById('wireSlider').style.opacity = "0";
+        document.getElementById('wireSlider').value = 50;
+
+    }else{
+        oneTimeStop--;
+    }
+
+}
 
 function addElementToPanel(name, elementClass, height){
 
@@ -27,10 +55,10 @@ document.getElementById("delModeButton").onclick = function(){
 }
 
 addElementToPanel("Диод", Diode);
-// addElementToPanel("Резистор", Resistor);
-// addElementToPanel("Светодиод", LED_Diode);
-// addElementToPanel("Транзистор", Transistor, 97);
-// addElementToPanel("Переключатель", Switch);
+addElementToPanel("Резистор", Resistor);
+addElementToPanel("Светодиод", LED_Diode);
+addElementToPanel("Транзистор", Transistor, 97);
+addElementToPanel("Переключатель", Switch);
 
 // var p1 = new Point(200, 200);
 // var p2 = new Point(400, 250);
