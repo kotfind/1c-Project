@@ -144,7 +144,7 @@ class Wire{
                 this.parentPoint1.dependedWires[i] = undefined;
         
         for(var i = 0; i < this.parentPoint2.dependedWires.length; i++)
-            if(this.parentPoint1.dependedWires[i] != undefined && this.parentPoint2.dependedWires[i].number == this.number)   
+            if(this.parentPoint2.dependedWires[i] != undefined && this.parentPoint2.dependedWires[i].number == this.number)   
                 this.parentPoint2.dependedWires[i] = undefined;
 
 

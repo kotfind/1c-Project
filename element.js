@@ -1,20 +1,22 @@
 class Element {
 
-    constructor(elementClass, height, adder, img, parent, pointsX, pointsY){
+    constructor(elementClass, height, adder, img, parent, pointsX, pointsY, type){
 
         var elem = document.createElement("img");
         this.elem = elem;
         this.img = img;
+        this.type = type;
         //if(title != "" && title != undefined)elem.title = title;
         parent = parent==undefined? document.getElementById("objectsSpan"):parent;
 
         elem.src = this.img;
         elem.height = height;
         elem.className = "element";
-        elem.zIndex = 10;
         parent.insertBefore(elem, parent.children[0]);
         var this_ = this;
         var onpanel = adder;
+        this.number = elementNumber + 1;
+        elementNumber++;
 
         var points = this.points = [];
 
@@ -46,6 +48,8 @@ class Element {
                 elem.style.zIndex = 100;
 
                 function moveAt(e) {
+
+                    this_.onMove();
 
                     if(!e.ctrlKey) {
 
@@ -82,9 +86,10 @@ class Element {
                 new elementClass(true, parent);
 
                 adder = false;
+                this_.becomeNotAdder();
 
                 for(var i = 0; i < pointsX.length; i++){
-                    points[points.length] = new Point(0, 0, this_);
+                    points[points.length] = new Point(0, 0, this_, i);
                 }
 
                 var coords = getCoords(elem);
@@ -123,6 +128,11 @@ class Element {
 
         }
         this.elem.remove();
+        this.onDel();
 
     }
+
+    onMove(){}
+    onDel(){}
+    becomeNotAdder(){}
 }

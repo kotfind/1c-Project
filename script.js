@@ -2,6 +2,7 @@ var selectedPoint;
 var selectedWire;
 var pointNumber = 0;
 var wireNumber = 0;
+var elementNumber = 0;
 var delMode = false;
 var oneTimeStop = 0;
 

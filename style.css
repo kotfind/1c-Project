@@ -11,16 +11,17 @@ html, body{
               user-select: none;
 }
 .point{
-    z-index: 100;
+    z-index: 1000;
     cursor: pointer;
 }
 .element{
     cursor: pointer;
-    z-index: 10;
+    z-index: 100;
 }
 
 .wire{
     cursor: pointer;
+    z-index: 10;
 }
 
 #elementPanel{
@@ -43,13 +44,17 @@ html, body{
     justify-content: center;
     margin-top: 10px;
 }
-#delModeButton{
+.button{
     
     width: 25px;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
     opacity: 0.5;
 
+}
+
+#startEmulationButton{
+    opacity: 1;
 }
 
 #wireSlider{
