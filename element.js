@@ -22,6 +22,8 @@ class Element {
 
         elem.onmousedown = function(e) {
 
+            this_.onClick(e);
+
             if(delMode){
 
                 if(!adder)this_.removeThis();
@@ -86,7 +88,7 @@ class Element {
                 new elementClass(true, parent);
 
                 adder = false;
-                this_.becomeNotAdder();
+                this_.onBecomeNotAdder();
 
                 for(var i = 0; i < pointsX.length; i++){
                     points[points.length] = new Point(0, 0, this_, i);
@@ -134,5 +136,6 @@ class Element {
 
     onMove(){}
     onDel(){}
-    becomeNotAdder(){}
+    onBecomeNotAdder(){}
+    onClick(e){}
 }
