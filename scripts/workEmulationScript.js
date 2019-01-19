@@ -5,8 +5,6 @@ var sorceNumber = 0;
 
 document.getElementById("startEmulationButton").onclick = function(e){
 
-    //console.log(sourceArray);
-
     chains = [];
 
     for(var i = 0; i < sourceArray.length; i++){
@@ -14,7 +12,7 @@ document.getElementById("startEmulationButton").onclick = function(e){
         if(sourceArray[i] != undefined){
             elementArray = new Array(elementNumber).fill(0);
             sorceNumber = sourceArray[i].number;
-            findWays(sourceArray[i].points[0], undefined, "", true);
+            findWays(sourceArray[i].points[0], undefined, [], true);
         }
     }
 
@@ -29,8 +27,6 @@ document.getElementById("startEmulationButton").onclick = function(e){
 }
 
 function findWays(lastPoint, lastWire, str, firstStart){
-
-    //console.log(lastPoint.parentElement.type + " " + lastPoint.inElementNumber);
 
     var point;
 
@@ -49,7 +45,7 @@ function findWays(lastPoint, lastWire, str, firstStart){
             case "transistor":
 
                 if(lastPoint.inElementNumber == 3  || elementArray[lastPoint.parentElement.number] > 2)return;
-                else point = lastPoint.parentElement.point[3];
+                else point = lastPoint.parentElement.points[2];
                 break;
 
             case "switch":
@@ -69,35 +65,25 @@ function findWays(lastPoint, lastWire, str, firstStart){
                 else point = lastPoint.parentElement.points[1];
                 break;
         }
-        
-        //console.log(point);
 
-        str += point.parentElement.type + "_" + lastPoint.inElementNumber + "_" + point.inElementNumber + " ";
+        str[str.length] = {"element":point.parentElement.type, "point1inElementNumber":lastPoint.inElementNumber, "point2inElementNumber":point.inElementNumber};
+
     }else{
 
         point = lastPoint;
 
     }
 
-    console.log("foo");
+    var nowElementArray = elementArray.slice();
 
     for(var i = 0; i < point.dependedWires.length; i++){
 
         if(point.dependedWires[i] != undefined && 
           (lastWire == undefined || lastWire.number != point.dependedWires[i].number)){
 
-            console.log(point.dependedWires[i].parentPoint1.number == point.number ? point.dependedWires[i].parentPoint2 : point.dependedWires[i].parentPoint1);
-
-        }
-
-    }
-
-    for(var i = 0; i < point.dependedWires.length; i++){
-
-        if(point.dependedWires[i] != undefined && 
-          (lastWire == undefined || lastWire.number != point.dependedWires[i].number)){
-
-            findWays(point.dependedWires[i].parentPoint1.number == point.number ? point.dependedWires[i].parentPoint2 : point.dependedWires[i].parentPoint1 , point.dependedWires[i], str);
+            elementArray = nowElementArray.slice();
+            
+            findWays(point.dependedWires[i].parentPoint1.number == point.number ? point.dependedWires[i].parentPoint2 : point.dependedWires[i].parentPoint1 , point.dependedWires[i], str.slice());
 
         }
 

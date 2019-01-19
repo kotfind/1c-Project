@@ -49,12 +49,12 @@ html, body{
     width: 25px;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
-    opacity: 0.5;
 
 }
+#delModeButton{
 
-#startEmulationButton{
-    opacity: 1;
+    opacity: 0.5;
+    
 }
 
 #wireSlider{
@@ -96,6 +96,15 @@ html, body{
     position: absolute;
     top: calc( 66% + 27px );
     width: 47px;
+    opacity: 0;
+
+}
+
+#fileLoadInput{
+
+    position: absolute;
+    top: 2.5px;
+    left: 272.5px;
     opacity: 0;
 
 }
