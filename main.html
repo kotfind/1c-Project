@@ -10,17 +10,31 @@
     <body>
         
         <div id="elementPanel"></div>
-        <script src="point.js"></script>
-        <script src="element.js"></script>
-        <script src="wire.js"></script>
+        <img src="res/X.png" id="delModeButton" class="button"><img src="res/startButton.png" id="startEmulationButton" class="button"><img src="res/saveButton.png" id="saveButton" class="button"><img src="res/loadButton.png" id="loadButton" class="button">
+        <input type="file" id="fileLoadInput">
+        <!-- <img src="res/rotate.png" id="rotatelModeButton" class="button"> -->
 
-        <script src="elements/diode.js"></script>
-        <!-- <script src="elements/resistor.js"></script>
-        <script src="elements/LED-diode.js"></script>
-        <script src="elements/transistor.js"></script>
-        <script src="elements/switch.js"></script> -->
+        <div id="propertiesPanel"></div>
+        <input type="range" min="0" max="100" step="1" value="50" id="wireSlider">
 
-        <script src="script.js"></script>
+        <input type="number" min="0" max="250" step="5" id="wireColorField1" class="wireColorFields">
+        <input type="number" min="0" max="250" step="5" id="wireColorField2" class="wireColorFields">
+        <input type="number" min="0" max="250" step="5" id="wireColorField3" class="wireColorFields">
+
+        <script src="scripts/point.js"></script>
+        <script src="scripts/element.js"></script>
+        <script src="scripts/wire.js"></script>
+
+        <script src="scripts/elements/diode.js"></script>
+        <script src="scripts/elements/resistor.js"></script>
+        <script src="scripts/elements/LED-diode.js"></script>
+        <script src="scripts/elements/transistor.js"></script>
+        <script src="scripts/elements/switch.js"></script>
+        <script src="scripts/elements/source.js"></script>
+
+        <script src="scripts/workEmulationScript.js"></script>
+        <script src="scripts/script.js"></script>
+        <script src="scripts/saveLoadScript.js"></script>
 
     </body>
 
