@@ -2,7 +2,7 @@ class LED_Diode extends Element{
 
     constructor(adder, parent){
 
-        super(LED_Diode, 40, adder, "res/elements/LED-diode.png", parent, [1, 99], [20, 20], "LED-diode");
+        super(LED_Diode, 40, adder, "res/elements/LED-diode.png", parent, [1, 99], [20, 20], "led-diode");
 
         var lightSpan = this.lightSpan = document.createElement("span");
         lightSpan.style.position = "absolute";

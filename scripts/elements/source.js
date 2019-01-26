@@ -4,6 +4,8 @@ class Source extends Element{
 
         super(Source, 40, adder, "res/elements/source.png", parent, [1, 99], [20, 20], "source");
 
+        this.voltage = 9;
+
         this.onBecomeNotAdder = function(){
 
             sourceArray[sourceArray.length] = this;
