@@ -46,7 +46,7 @@ function findWays(lastPoint, lastWire, str, firstStart){
                 if(lastPoint.inElementNumber == 3  || elementArray[lastPoint.parentElement.number] > 2)return;
                 point = lastPoint.parentElement.points[2];
                 if(lastPoint.inElementNumber == 2)str[0]["haveEditableElements"] = true;
-                params = {"input": (lastPoint.inElementNumber == 2 ? 2 : 1), "openValuePer100":0, "maxAmperage": lastPoint.parentElement.maxAmperage};
+                params = {"input": (lastPoint.inElementNumber == 2 ? 2 : 1)};
                 break;
 
             case "switch":
@@ -59,14 +59,10 @@ function findWays(lastPoint, lastWire, str, firstStart){
             case "resistor":
                 if(elementArray[lastPoint.parentElement.number] > 1)return;
                 point = lastPoint.parentElement.points[0].number == lastPoint.number ? lastPoint.parentElement.points[1] : lastPoint.parentElement.points[0];
-                params = lastPoint.parentElement.resistance;
                 break;
 
             default:
-                if(lastPoint.parentElement.type=="led-diode"){
-                    str[0]["haveEditableElements"] = true;
-                    params = {"maxAmperage": lastPoint.parentElement.maxAmperage, "lightLevelPer100": 0}
-                }
+                if(lastPoint.parentElement.type=="led-diode")str[0]["haveEditableElements"] = true;
                 if(lastPoint.inElementNumber == 2 || elementArray[lastPoint.parentElement.number] > 1)return;
                 point = lastPoint.parentElement.points[1];
                 break;
@@ -98,65 +94,63 @@ function findWays(lastPoint, lastWire, str, firstStart){
 
 function emulate(){
 
-    var smthChanged = false;
-    var smthBurned = false;
+    var smthChanged;
 
     do{
 
         smthChanged = false;
-
-        console.log("length: " + chains.length);
-
         for (var i = 0; i < chains.length; i++) {
 
-            if(chains[i] != undefined){
-                //the beginning of part of code for each chain
+            //the beginning of part of code for each chain
 
-                var chainParams = learnChainParams(i);
-                //chainParams:
-                //  #voltage
-                //  #amperage
-                //  #resistance
-                //  #baseTransistors
-                //  #collectorTransistors
-                //  #led-diodes
-                console.log(chainParams["amperage"]);
+            var chainParams = learnChainParams(i);
+            //chainParams:
+            //  #voltage
+            //  #amperage
+            //  #resistance
+            //  #baseTransistors
+            //  #collectorTransistors
+            //  #led-diodes
 
+            if(i == 0){
                 for(var i = 0; i < chainParams["baseTransistors"].length; i++){
 
-                    if(chainParams["amperage"]/chainParams["baseTransistors"][0].params["maxAmperage"]>= 1.2){
-                        smthBurned = true;
-                        break;
-                    }else{
-                        var tempValue = chainParams["amperage"]/chainParams["baseTransistors"][0].params["maxAmperage"]*100;
-                        if(tempValue > 100)tempValue = 100;
-                        if(chainParams["baseTransistors"][0].params["openValuePer100"]!=tempValue){
-                          chainParams["baseTransistors"][0].params["openValuePer100"] = tempValue;
-                          smthChanged = true;
-                        }
+                    chainParams["baseTransistors"][i].element.nowAmperage = 0;
+                    chainParams["baseTransistors"][i].element.openValue = 0;
 
-                    }
                 }
+
                 for(var i = 0; i < chainParams["led-diodes"].length; i++){
-                    if(chainParams["amperage"]/chainParams["led-diodes"][0].params["maxAmperage"]>= 1.3){
-                        smthBurned = true;
-                        break;
-                    }else if(chainParams["led-diodes"][0].params["lightLevelPer100"]/100!=chainParams["amperage"]/chainParams["led-diodes"][0].params["maxAmperage"]){
-                        chainParams["led-diodes"][0].params["lightLevelPer100"] = chainParams["amperage"]/chainParams["led-diodes"][0].params["maxAmperage"] * 100;
-                        chainParams["led-diodes"][0].element.setLightLevelPer100(chainParams["amperage"]/chainParams["led-diodes"][0].params["maxAmperage"] * 100);
-                        smthChanged = true;
-                    }
+
+                    chainParams["led-diodes"][i].element.nowAmperage = 0;
+                    chainParams["led-diodes"][i].element.lightLevel = 0;
 
                 }
-                if(smthBurned){
-                    alert("Что-то сгорело.");
-                    break;
-                }
-
-                //the ending of part of code for each chain
             }
 
+            console.log(chainParams["amperage"]);
+
+            for(var i = 0; i < chainParams["baseTransistors"].length; i++){
+
+                chainParams["baseTransistors"].element.nowAmperage += chainParams["amperage"];
+
+            }
+            for(var i = 0; i < chainParams["led-diodes"].length; i++){
+
+                chainParams["led-diodes"].element.nowAmperage += chainParams["amperage"];
+
+            }
+
+            if(i == chains.length-1){
+
+                //recount params
+
+            }
+
+            //the ending of part of code for each chain
+
         }
+
     }while(smthChanged);
 }
 
@@ -169,7 +163,7 @@ function learnChainParams(chainNumber) {
         switch(chains[chainNumber][i].type){
 
             case "resistor":
-                paramsArray["resistance"] += chains[chainNumber][i].params;
+                paramsArray["resistance"] += chains[chainNumber][i].element.resistance;
                 break;
 
             case "transistor":
@@ -183,9 +177,9 @@ function learnChainParams(chainNumber) {
         }
 
     }
-    
+
     if(paramsArray["voltage"] == 0)paramsArray["amperage"] = 0;
-    else if(paramsArray["resistance"] == 0 && paramsArray["voltage" != 0])paramsArray["amperage"] = Infinity;
+    else if(paramsArray["resistance"] == 0 && paramsArray["voltage"] != 0)paramsArray["amperage"] = Infinity;
     else paramsArray["amperage"] = paramsArray["voltage"] / 1.0 / paramsArray["resistance"];
     for (var i = 0; i < paramsArray["collectorTransistors"].length; i++) {
         paramsArray["amperage"]*=paramsArray["collectorTransistors"][i].params["openValuePer100"] / 100;
