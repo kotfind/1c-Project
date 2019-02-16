@@ -4,6 +4,7 @@ class LED_Diode extends Element{
 
         super(LED_Diode, 40, adder, "res/elements/LED-diode.png", parent, [1, 99], [20, 20], "led-diode");
 
+        this.maxAmperage = 0.03;
         var lightSpan = this.lightSpan = document.createElement("span");
         lightSpan.style.position = "absolute";
         lightSpan.style.zIndex = 0;
@@ -30,6 +31,13 @@ class LED_Diode extends Element{
         this.onDel = function(){
 
             lightSpan.remove();
+
+        }
+
+        this.setLightLevelPer100 = function(lightLevelPer100){
+
+            if(lightLevelPer100 > 100)lightLevelPer100 = 100;
+            lightSpan.style.opacity = lightLevelPer100 / 100;
 
         }
 

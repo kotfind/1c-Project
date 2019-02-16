@@ -4,7 +4,7 @@ class Resistor extends Element{
 
         super(Resistor, 40, adder, "res/elements/resistor.png", parent, [1, 99], [20, 20], "resistor"); 
 
-        this.resistance = 1000;
+        this.resistance = 100;
 
     }
 

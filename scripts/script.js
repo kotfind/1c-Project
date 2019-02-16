@@ -69,12 +69,12 @@ document.getElementById("delModeButton").onclick = function(){
 
 }
 
-addElementToPanel("Диод", Diode);
+addElementToPanel("Батарейка", Source);
 addElementToPanel("Резистор", Resistor);
 addElementToPanel("Светодиод", LED_Diode);
-addElementToPanel("Транзистор", Transistor, 97);
 addElementToPanel("Переключатель", Switch);
-addElementToPanel("Батарейка", Source);
+addElementToPanel("Транзистор", Transistor, 97);
+addElementToPanel("Диод", Diode);
 
 // var p1 = new Point(200, 200);
 // var p2 = new Point(400, 250);
