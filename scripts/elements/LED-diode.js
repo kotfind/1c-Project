@@ -4,6 +4,7 @@ class LED_Diode extends Element{
 
         super(LED_Diode, 40, adder, "res/elements/LED-diode.png", parent, [1, 99], [20, 20], "led-diode");
 
+        // var oldNowAmperage;
         this.nowAmperage = 0;
         this.maxAmperage = 0.03;
         this.lightLevel = 0;
@@ -39,8 +40,28 @@ class LED_Diode extends Element{
 
         this.recountLightLevel = function(){
 
-            // if(lightLevelPer100 > 100)lightLevelPer100 = 100;
-            // lightSpan.style.opacity = lightLevelPer100 / 100;
+            var smthBurned = false;
+            var smthChanged = false;
+
+            if(this.nowAmperage > this.maxAmperage){
+
+                this.lightLevel = 0;
+                lightSpan.style.opacity = this.lightLevel;
+                smthBurned = true;
+
+            }else{
+
+                if(this.lightLevel != this.nowAmperage / this.maxAmperage){
+                    
+                    this.lightLevel = this.nowAmperage / this.maxAmperage;
+                    lightSpan.style.opacity = this.lightLevel;
+                    smthChanged = true;
+
+                }
+
+            }
+
+            return {"smthBurned": smthBurned, "smthChanged": smthChanged};
 
         }
 

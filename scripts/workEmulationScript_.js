@@ -16,8 +16,6 @@ document.getElementById("startEmulationButton").onclick = function(e){
         }
     }
 
-    console.log(chains);
-
     emulate();
 
 }
@@ -94,16 +92,18 @@ function findWays(lastPoint, lastWire, str, firstStart){
 
 function emulate(){
 
-    var smthChanged;
+    var smthChanged, smthChanged, isFirstCircle = true;
 
     do{
 
         smthChanged = false;
-        for (var i = 0; i < chains.length; i++) {
+        smthBurned = false;
+
+        for (var a = 0; a < chains.length; a++) {
 
             //the beginning of part of code for each chain
 
-            var chainParams = learnChainParams(i);
+            var chainParams = learnChainParams(a);
             //chainParams:
             //  #voltage
             //  #amperage
@@ -111,47 +111,68 @@ function emulate(){
             //  #baseTransistors
             //  #collectorTransistors
             //  #led-diodes
-
-            if(i == 0){
-                for(var i = 0; i < chainParams["baseTransistors"].length; i++){
-
-                    chainParams["baseTransistors"][i].element.nowAmperage = 0;
-                    chainParams["baseTransistors"][i].element.openValue = 0;
-
-                }
-
-                for(var i = 0; i < chainParams["led-diodes"].length; i++){
-
-                    chainParams["led-diodes"][i].element.nowAmperage = 0;
-                    chainParams["led-diodes"][i].element.lightLevel = 0;
-
-                }
-            }
-
-            console.log(chainParams["amperage"]);
+            console.log(a);
+            console.log(chainParams);
 
             for(var i = 0; i < chainParams["baseTransistors"].length; i++){
 
-                chainParams["baseTransistors"].element.nowAmperage += chainParams["amperage"];
+                if(i == 0){
+                    chainParams["baseTransistors"][i].element.nowAmperage = 0;
+                    if(isFirstCircle)chainParams["baseTransistors"][i].element.openValue = 0;
+                }
+
+                chainParams["baseTransistors"][i].element.nowAmperage += chainParams["amperage"];
+
+                if(i == chainParams["baseTransistors"].length-1){
+
+                    var returnedValue = chainParams["baseTransistors"][i].element.recountOpenValue();
+                    //console.log(returnedValue);
+                    smthChanged = returnedValue["smthChanged"];
+                    if(returnedValue["smthBurned"]){
+
+                        smthBurned = true;
+                        break;
+
+                    }
+
+                }
 
             }
+            if(smthBurned) break;
             for(var i = 0; i < chainParams["led-diodes"].length; i++){
 
-                chainParams["led-diodes"].element.nowAmperage += chainParams["amperage"];
+                if(i == 0){
+                    chainParams["led-diodes"][i].element.nowAmperage = 0;
+                    if(isFirstCircle)chainParams["led-diodes"][i].element.lightLevel = 0;
+                }
+
+                chainParams["led-diodes"][i].element.nowAmperage += chainParams["amperage"];
+
+                if(i == chainParams["led-diodes"].length-1){
+
+                    var returnedValue = chainParams["led-diodes"][i].element.recountLightLevel();
+                    smthChanged = returnedValue["smthChanged"];
+                    if(returnedValue["smthBurned"]){
+
+                        smthBurned = true;
+                        break;
+
+                    }
+
+                }
 
             }
-
-            if(i == chains.length-1){
-
-                //recount params
-
-            }
+            if(smthBurned) break;
 
             //the ending of part of code for each chain
 
         }
+        if(smthBurned) break;
+
+        isFirstCircle = false;
 
     }while(smthChanged);
+    if(smthBurned) alert("Что-то сгорело.");
 }
 
 function learnChainParams(chainNumber) {
@@ -182,7 +203,7 @@ function learnChainParams(chainNumber) {
     else if(paramsArray["resistance"] == 0 && paramsArray["voltage"] != 0)paramsArray["amperage"] = Infinity;
     else paramsArray["amperage"] = paramsArray["voltage"] / 1.0 / paramsArray["resistance"];
     for (var i = 0; i < paramsArray["collectorTransistors"].length; i++) {
-        paramsArray["amperage"]*=paramsArray["collectorTransistors"][i].params["openValuePer100"] / 100;
+        paramsArray["amperage"]*=paramsArray["collectorTransistors"][i].element.openValue;
     }
 
     return paramsArray;}

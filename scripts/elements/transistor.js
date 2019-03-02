@@ -8,6 +8,31 @@ class Transistor extends Element{
         this.openValue = 0;
         this.nowAmperage = 0;
 
+        this.recountOpenValue = function(){
+
+            var smthBurned = false;
+            var smthChanged = false;
+
+            if(this.nowAmperage > this.maxAmperage){
+
+                smthBurned = true;
+                this.openValue = 0;
+
+            }else{
+
+                if(this.openValue != this.nowAmperage / this.maxAmperage){
+                    
+                    this.openValue = this.nowAmperage / this.maxAmperage;
+                    smthChanged = true;
+
+                }
+
+            }
+
+            return {"smthBurned": smthBurned, "smthChanged": smthChanged};
+
+        }
+
     }
 
 }
